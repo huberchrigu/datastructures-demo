@@ -5,6 +5,8 @@ import ch.chrigu.demo.Operation;
 import java.util.List;
 
 /**
+ * An operation that can be performed on lists only.
+ *
  * Created by Christoph Huber on 02.01.2015.
  */
 public interface ListOperation extends Operation {
