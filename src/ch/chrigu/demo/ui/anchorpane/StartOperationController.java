@@ -1,8 +1,10 @@
-package ch.chrigu.demo.ui;
+package ch.chrigu.demo.ui.anchorpane;
 
+import ch.chrigu.demo.tasks.StartOperationTask;
 import ch.chrigu.demo.operations.Operation;
 import ch.chrigu.demo.operations.Operations;
 import ch.chrigu.demo.instances.CollectionInstances;
+import ch.chrigu.demo.ui.MainButtons;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,17 +13,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 /**
- * Controller for startAction.fxml. For configuring an operationChoice to be executed on each instances instance.
+ * Controller for startOperation.fxml. For configuring an operationChoice to be executed on each instances instance.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
-public class StartActionController implements AnchorPaneController {
+public class StartOperationController implements AnchorPaneController {
     private static final String RANDOM_VALUE = "Random values";
     private static final String ALL_ZEROS = "All zeros";
     private static final String RANDOM_INDEX = "Random indices";
 
     private BorderPane mainBorderPane;
     private CollectionInstances collectionInstances;
+    private MainButtons mainButtons;
 
     @FXML
     TextField dataSetSize;
@@ -47,18 +50,28 @@ public class StartActionController implements AnchorPaneController {
         this.collectionInstances = collectionInstances;
     }
 
+    @Override
+    public void setMainButtons(MainButtons mainButtons) {
+        this.mainButtons = mainButtons;
+    }
+
+    /**
+     * Validates the input params. Then disables the start button, which will be enabled
+     * again after the operation was performed (by callback function).
+     */
     public void start() {
         if (operationChoice.getValue() == null || dataSetGeneratorChoice.getValue() == null) {
             return;
         }
         String operationName = operationChoice.getValue();
         Operation operation = Operations.fromName(operationName);
-        CollectionInstances.DataSetGenerator dataSetGenerator = getDataSetGenerator(dataSetGeneratorChoice.getValue());
-        int n = parseNumericTextField(dataSetSize);
-        if (!validateParams(n)) {
+        StartOperationTask.DataSetGenerator dataSetGenerator = getDataSetGenerator(dataSetGeneratorChoice.getValue());
+        int size = parseNumericTextField(dataSetSize);
+        if (!validateParams(size)) {
             return;
         }
-        collectionInstances.performCollectionOperation(n, operation, dataSetGenerator);
+        mainButtons.disableAll();
+        new StartOperationTask(collectionInstances, size, operation, dataSetGenerator, mainButtons).run();
         cancel();
     }
 
@@ -85,14 +98,14 @@ public class StartActionController implements AnchorPaneController {
         }
     }
 
-    private CollectionInstances.DataSetGenerator getDataSetGenerator(String value) {
+    private StartOperationTask.DataSetGenerator getDataSetGenerator(String value) {
         switch(value) {
             case RANDOM_VALUE:
-                return CollectionInstances.DataSetGenerator.RANDOM_VALUE;
+                return StartOperationTask.DataSetGenerator.RANDOM_VALUE;
             case ALL_ZEROS:
-                return CollectionInstances.DataSetGenerator.ALL_ZEROS;
+                return StartOperationTask.DataSetGenerator.ALL_ZEROS;
             case RANDOM_INDEX:
-                return CollectionInstances.DataSetGenerator.RANDOM_INDEX;
+                return StartOperationTask.DataSetGenerator.RANDOM_INDEX;
             default:
                 throw new IllegalStateException("Invalid data set generator choice!");
         }

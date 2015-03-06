@@ -2,10 +2,14 @@ package ch.chrigu.demo.instances;
 
 import ch.chrigu.demo.instances.options.CollectionOptions;
 import ch.chrigu.demo.types.CollectionType;
+import com.sun.deploy.util.StringUtils;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * Maintains an instance of a {@link CollectionType}.
@@ -16,31 +20,36 @@ import java.util.Collections;
 public class CollectionInstance<T> {
 
     private CollectionOptions collectionOptions;
-    private CollectionType<T> type;
+    private CollectionType<T> collectionType;
     private Collection<T> instance;
 
     // FX
     private SimpleStringProperty name;
     private SimpleStringProperty parametersProperty;
+    private SimpleStringProperty elements;
+    private SimpleIntegerProperty size;
+    private SimpleLongProperty lastMeasurementInMs;
 
-    public CollectionInstance(CollectionType<T> type) {
-        this.type = type;
-        this.instance = type.createInstance();
+    public CollectionInstance(CollectionType<T> collectionType) {
+        this.collectionType = collectionType;
+        this.instance = collectionType.createInstance();
         initProperties();
     }
 
     public CollectionInstance(CollectionType<T> collectionType, CollectionOptions collectionOptions) {
-        this.type = collectionType;
+        this.collectionType = collectionType;
+        this.collectionOptions = collectionOptions;
         if (collectionOptions.getCapacity() == null) {
-            this.instance = type.createInstance();
+            this.instance = this.collectionType.createInstance();
         } else {
-            this.instance = type.createInstance(collectionOptions.getCapacity());
+            this.instance = this.collectionType.createInstance(collectionOptions.getCapacity());
         }
+        initProperties();
+
+        // do this after initProperties, because instance's class would be SynchronizedCollection otherwise
         if (collectionOptions.isSynchronizedCollection()) {
             this.instance = Collections.synchronizedCollection(instance);
         }
-        this.collectionOptions = collectionOptions;
-        initProperties();
     }
 
     private void initProperties() {
@@ -48,21 +57,60 @@ public class CollectionInstance<T> {
         if (collectionOptions != null) {
             this.parametersProperty = new SimpleStringProperty(collectionOptions.toString());
         }
+        lastMeasurementInMs = new SimpleLongProperty();
+        elements = new SimpleStringProperty();
+        size = new SimpleIntegerProperty();
+        updateElements();
+        updateSize();
     }
 
-    public String getName() {
-        return name.getValue();
+    public void updateLastMesasurementInMs(long timeInMs) {
+        this.lastMeasurementInMs.setValue(timeInMs);
+        updateElements();
+        updateSize();
+    }
+
+    private void updateSize() {
+        size.set(instance.size());
+    }
+
+    private void updateElements() {
+        if (instance.isEmpty()) {
+            elements.set("empty");
+        } else if (instance.size() <= 10) {
+            elements.set(StringUtils.join(instance.stream().map(String::valueOf).collect(Collectors.toList()), ", "));
+        } else {
+            Collection firstFive = instance.stream().limit(5).map(String::valueOf).collect(Collectors.toList());
+            Collection lastFive = instance.stream().skip(instance.size() - 5).map(String::valueOf).collect(Collectors.toList());
+            elements.set(StringUtils.join(firstFive, ", ") + " ... " + StringUtils.join(lastFive, ", "));
+        }
     }
 
     public Collection<T> getInstance() {
         return instance;
     }
 
-    public SimpleStringProperty getNameProperty() {
+    public SimpleStringProperty nameProperty() {
         return name;
     }
 
-    public SimpleStringProperty getParametersProperty() {
+    public SimpleStringProperty parametersProperty() {
         return parametersProperty;
+    }
+
+    public SimpleStringProperty elementsProperty() {
+        return elements;
+    }
+
+    public SimpleIntegerProperty sizeProperty() {
+        return size;
+    }
+
+    public SimpleLongProperty lastMeasurementInMsProperty() {
+        return lastMeasurementInMs;
+    }
+
+    public void resetLastMeasurementInMs() {
+        lastMeasurementInMs.setValue(null);
     }
 }

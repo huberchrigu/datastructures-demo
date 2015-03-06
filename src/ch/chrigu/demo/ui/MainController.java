@@ -2,6 +2,7 @@ package ch.chrigu.demo.ui;
 
 import ch.chrigu.demo.instances.CollectionInstance;
 import ch.chrigu.demo.instances.CollectionInstances;
+import ch.chrigu.demo.ui.anchorpane.AnchorPaneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -24,6 +25,15 @@ public class MainController {
     private Button removeCollectionButton;
 
     @FXML
+    private Button startOperationButton;
+
+    @FXML
+    private Button clearButton;
+
+    @FXML
+    private Button addCollectionButton;
+
+    @FXML
     private TableView<CollectionInstance<Integer>> collectionsTable;
 
     @FXML
@@ -31,6 +41,15 @@ public class MainController {
 
     @FXML
     private TableColumn<CollectionInstance<Integer>, String> collectionParameters;
+
+    @FXML
+    private TableColumn<CollectionInstance<Integer>, Number> collectionSize;
+
+    @FXML
+    private TableColumn<CollectionInstance<Integer>, String> collectionElements;
+
+    @FXML
+    private TableColumn<CollectionInstance<Integer>, Number> lastMeasurement;
 
     @FXML
     private BorderPane borderPane;
@@ -55,8 +74,11 @@ public class MainController {
             return row;
         });
 
-        collectionName.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
-        collectionParameters.setCellValueFactory(cellData -> cellData.getValue().getParametersProperty());
+        collectionName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        collectionParameters.setCellValueFactory(cellData -> cellData.getValue().parametersProperty());
+        collectionSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
+        collectionElements.setCellValueFactory(cellData -> cellData.getValue().elementsProperty());
+        lastMeasurement.setCellValueFactory(cellData -> cellData.getValue().lastMeasurementInMsProperty());
 
         removeCollectionButton.setDisable(true);
     }
@@ -75,17 +97,17 @@ public class MainController {
             }
         }
     }
-    public void clearAllCollections() {
+    public void clear() {
         collectionsTable.getItems().clear();
     }
 
-    public void startAction() {
-        openPane("startAction.fxml");
+    public void startOperation() {
+        openPane("startOperation.fxml");
     }
 
     private void openPane(String fxmlFile) {
         AnchorPane anchorPane;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        FXMLLoader loader = new FXMLLoader(AnchorPaneController.class.getResource(fxmlFile));
         try {
             anchorPane = loader.load();
         } catch (IOException e) {
@@ -95,6 +117,23 @@ public class MainController {
         AnchorPaneController controller = loader.getController();
         controller.setMainBorderPane(borderPane);
         controller.setCollectionInstances(collections);
+        controller.setMainButtons(new MainButtons() {
+            @Override
+            public void enableAll() {
+                removeCollectionButton.setDisable(false);
+                startOperationButton.setDisable(false);
+                clearButton.setDisable(false);
+                addCollectionButton.setDisable(false);
+            }
+
+            @Override
+            public void disableAll() {
+                removeCollectionButton.setDisable(true);
+                startOperationButton.setDisable(true);
+                clearButton.setDisable(true);
+                addCollectionButton.setDisable(true);
+            }
+        });
         borderPane.setLeft(anchorPane);
     }
 }

@@ -6,10 +6,10 @@
 <BorderPane prefHeight="213.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.chrigu.demo.ui.MainController" fx:id="borderPane">
    <top>
        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-           <Button onAction="#addCollection" text="Add Collection"/>
+           <Button fx:id="addCollectionButton" onAction="#addCollection" text="Add Collection"/>
            <Button fx:id="removeCollectionButton" onAction="#removeCollection" text="Remove Collection"/>
-           <Button onAction="#clearAllCollections" text="Clear All Collections"/>
-           <Button onAction="#startAction" text="Start Action"/>
+           <Button fx:id="clearButton" onAction="#clear" text="Clear"/>
+           <Button fx:id="startOperationButton" onAction="#startOperation" text="Start Operation"/>
        </HBox>
    </top>
    <center>
@@ -19,6 +19,9 @@
                <columns>
                    <TableColumn fx:id="collectionName" prefWidth="75.0" text="Collection"/>
                    <TableColumn fx:id="collectionParameters" prefWidth="75.0" text="Parameters"/>
+                   <TableColumn fx:id="collectionSize" prefWidth="30.0" text="Size"/>
+                   <TableColumn fx:id="collectionElements" prefWidth="100.0" text="Elements"/>
+                   <TableColumn fx:id="lastMeasurement" prefWidth="50.0" text="Last Measurement in ms"/>
                </columns>
               <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
