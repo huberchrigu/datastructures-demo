@@ -6,8 +6,8 @@ import ch.chrigu.demo.ui.anchorpane.AnchorPaneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -54,33 +54,20 @@ public class MainController {
     @FXML
     private BorderPane borderPane;
 
-    private TableRow<CollectionInstance<Integer>> selectedRow;
-
     public MainController() {
         collections = new CollectionInstances();
     }
 
     @FXML
     public void initialize() {
-
+        collectionsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         collectionsTable.setItems(collections.getInstances());
-
-        collectionsTable.setRowFactory(collectionInstance -> {
-            TableRow<CollectionInstance<Integer>> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                selectedRow = row;
-                removeCollectionButton.setDisable(false);
-            });
-            return row;
-        });
 
         collectionName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         collectionParameters.setCellValueFactory(cellData -> cellData.getValue().parametersProperty());
         collectionSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
         collectionElements.setCellValueFactory(cellData -> cellData.getValue().elementsProperty());
         lastMeasurement.setCellValueFactory(cellData -> cellData.getValue().lastMeasurementInMsProperty());
-
-        removeCollectionButton.setDisable(true);
     }
 
     /**
@@ -90,12 +77,7 @@ public class MainController {
         openPane("newCollection.fxml");
     }
     public void removeCollection() {
-        if (selectedRow != null) {
-            collectionsTable.getItems().remove(selectedRow.getItem());
-            if (collectionsTable.getItems().size() <= 0) {
-                removeCollectionButton.setDisable(false);
-            }
-        }
+        collectionsTable.getItems().removeAll(collectionsTable.getSelectionModel().getSelectedItems());
     }
     public void clear() {
         collectionsTable.getItems().clear();
