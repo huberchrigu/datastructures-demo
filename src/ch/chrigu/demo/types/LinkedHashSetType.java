@@ -1,17 +1,17 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 
 /**
- * A linked list can be instantiated without params only.
+ * A linked hash set can be instantiated with or without inital capacity.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
-public class LinkedListType<T> implements CollectionType<T> {
+public class LinkedHashSetType<T> implements CollectionType<T> {
     @Override
     public Collection<T> createInstance() {
-        return new LinkedList<T>();
+        return new LinkedHashSet<T>();
     }
 
     @Override
@@ -21,11 +21,11 @@ public class LinkedListType<T> implements CollectionType<T> {
 
     @Override
     public Collection<T> createInstance(int capacity) {
-        throw new UnsupportedOperationException("The linked list type does not support initial capacity");
+        return new LinkedHashSet<>(capacity);
     }
 
     @Override
     public boolean allowsCapacityParam() {
-        return false;
+        return true;
     }
 }

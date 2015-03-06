@@ -1,17 +1,17 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.TreeSet;
 
 /**
- * A tree set can be instantiated without params only.
+ * Provides creation of ArrayDeques.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
-public class TreeSetType<T> implements CollectionType<T> {
+public class ArrayDequeType<T> implements CollectionType<T> {
     @Override
     public Collection<T> createInstance() {
-        return new TreeSet<T>();
+        return new ArrayDeque<>();
     }
 
     @Override
@@ -21,11 +21,11 @@ public class TreeSetType<T> implements CollectionType<T> {
 
     @Override
     public Collection<T> createInstance(int capacity) {
-        throw new UnsupportedOperationException("Tree Set cannot be initialized with initial capacity");
+        return new ArrayDeque<>(capacity);
     }
 
     @Override
     public boolean allowsCapacityParam() {
-        return false;
+        return true;
     }
 }

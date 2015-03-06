@@ -1,11 +1,11 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Maintains a {@link CollectionType} instance for each type.
+ * Maintains a {@link CollectionType} instance for each types.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
@@ -38,7 +38,7 @@ public class CollectionTypes {
     public static CollectionType<Integer> fromString(String type) {
         CollectionType<Integer> collectionType = MAP.get(type);
         if (collectionType == null) {
-            throw new IllegalStateException(type + " is an unknown type");
+            throw new IllegalStateException(type + " is an unknown types");
         }
         return collectionType;
     }

@@ -1,17 +1,17 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.LinkedList;
 
 /**
- * Provides creation of Vector instances.
+ * A linked list can be instantiated without params only.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
-public class VectorType<T> implements CollectionType<T> {
+public class LinkedListType<T> implements CollectionType<T> {
     @Override
     public Collection<T> createInstance() {
-        return new Vector<>();
+        return new LinkedList<T>();
     }
 
     @Override
@@ -21,11 +21,11 @@ public class VectorType<T> implements CollectionType<T> {
 
     @Override
     public Collection<T> createInstance(int capacity) {
-        return new Vector<>(capacity);
+        throw new UnsupportedOperationException("The linked list types does not support initial capacity");
     }
 
     @Override
     public boolean allowsCapacityParam() {
-        return true;
+        return false;
     }
 }

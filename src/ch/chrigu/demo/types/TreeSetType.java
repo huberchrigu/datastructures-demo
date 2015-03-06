@@ -1,17 +1,17 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 /**
- * A linked hash set can be instantiated with or without inital capacity.
+ * A tree set can be instantiated without params only.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
-public class LinkedHashSetType<T> implements CollectionType<T> {
+public class TreeSetType<T> implements CollectionType<T> {
     @Override
     public Collection<T> createInstance() {
-        return new LinkedHashSet<T>();
+        return new TreeSet<T>();
     }
 
     @Override
@@ -21,11 +21,11 @@ public class LinkedHashSetType<T> implements CollectionType<T> {
 
     @Override
     public Collection<T> createInstance(int capacity) {
-        return new LinkedHashSet<>(capacity);
+        throw new UnsupportedOperationException("Tree Set cannot be initialized with initial capacity");
     }
 
     @Override
     public boolean allowsCapacityParam() {
-        return true;
+        return false;
     }
 }

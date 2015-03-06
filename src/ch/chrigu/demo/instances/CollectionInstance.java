@@ -1,7 +1,7 @@
-package ch.chrigu.demo.collection;
+package ch.chrigu.demo.instances;
 
-import ch.chrigu.demo.collection.options.CollectionOptions;
-import ch.chrigu.demo.collection.type.CollectionType;
+import ch.chrigu.demo.instances.options.CollectionOptions;
+import ch.chrigu.demo.types.CollectionType;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Collection;

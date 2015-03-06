@@ -1,28 +1,27 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
-
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Provides creation of {@link ArrayQueue} instances.
+ * Provides creation of ArrayLists.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
-public class ArrayQueueType<T> implements CollectionType<T> {
+public class ArrayListType<T> implements CollectionType<T> {
     @Override
     public Collection<T> createInstance() {
-        throw new UnsupportedOperationException("ArrayQueue cannot be initiated without parameters");
+        return new ArrayList<>();
     }
 
     @Override
     public boolean allowsNoParams() {
-        return false;
+        return true;
     }
 
     @Override
     public Collection<T> createInstance(int capacity) {
-        return new ArrayQueue<>(capacity);
+        return new ArrayList<>(capacity);
     }
 
     @Override

@@ -1,10 +1,12 @@
-package ch.chrigu.demo.collection;
+package ch.chrigu.demo.instances;
 
-import ch.chrigu.demo.Operation;
-import ch.chrigu.demo.collection.list.ListOperation;
-import ch.chrigu.demo.collection.options.CollectionOptions;
-import ch.chrigu.demo.collection.type.CollectionType;
-import ch.chrigu.demo.collection.type.CollectionTypes;
+import ch.chrigu.demo.operations.Operation;
+import ch.chrigu.demo.operations.collection.AddAllOperation;
+import ch.chrigu.demo.operations.collection.CollectionOperation;
+import ch.chrigu.demo.operations.collection.list.ListOperation;
+import ch.chrigu.demo.instances.options.CollectionOptions;
+import ch.chrigu.demo.types.CollectionType;
+import ch.chrigu.demo.types.CollectionTypes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -60,7 +62,7 @@ public class CollectionInstances {
             } else if (operation instanceof AddAllOperation) {
                 c.addAll(Arrays.asList(dataSet));
             } else {
-                throw new IllegalStateException("Unknown operation type");
+                throw new IllegalStateException("Unknown operations types");
             }
             measurement.stop();
             result.put(name, measurement);

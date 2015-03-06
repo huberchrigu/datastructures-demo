@@ -1,17 +1,17 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Vector;
 
 /**
- * Provides creation of ArrayLists.
+ * Provides creation of Vector instances.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
-public class ArrayListType<T> implements CollectionType<T> {
+public class VectorType<T> implements CollectionType<T> {
     @Override
     public Collection<T> createInstance() {
-        return new ArrayList<>();
+        return new Vector<>();
     }
 
     @Override
@@ -21,7 +21,7 @@ public class ArrayListType<T> implements CollectionType<T> {
 
     @Override
     public Collection<T> createInstance(int capacity) {
-        return new ArrayList<>(capacity);
+        return new Vector<>(capacity);
     }
 
     @Override

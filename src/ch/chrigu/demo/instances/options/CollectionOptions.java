@@ -1,7 +1,7 @@
-package ch.chrigu.demo.collection.options;
+package ch.chrigu.demo.instances.options;
 
 /**
- * Fluent API for building options how to create a collection.
+ * Fluent API for building options how to create a instances.
  *
  * Created by Christoph Huber on 05.03.2015.
  */

@@ -1,27 +1,28 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
-import java.util.ArrayDeque;
+import com.sun.jmx.remote.internal.ArrayQueue;
+
 import java.util.Collection;
 
 /**
- * Provides creation of ArrayDeques.
+ * Provides creation of {@link ArrayQueue} instances.
  *
  * Created by Christoph Huber on 05.03.2015.
  */
-public class ArrayDequeType<T> implements CollectionType<T> {
+public class ArrayQueueType<T> implements CollectionType<T> {
     @Override
     public Collection<T> createInstance() {
-        return new ArrayDeque<>();
+        throw new UnsupportedOperationException("ArrayQueue cannot be initiated without parameters");
     }
 
     @Override
     public boolean allowsNoParams() {
-        return true;
+        return false;
     }
 
     @Override
     public Collection<T> createInstance(int capacity) {
-        return new ArrayDeque<>(capacity);
+        return new ArrayQueue<>(capacity);
     }
 
     @Override

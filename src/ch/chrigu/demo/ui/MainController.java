@@ -1,7 +1,7 @@
 package ch.chrigu.demo.ui;
 
-import ch.chrigu.demo.collection.CollectionInstance;
-import ch.chrigu.demo.collection.CollectionInstances;
+import ch.chrigu.demo.instances.CollectionInstance;
+import ch.chrigu.demo.instances.CollectionInstances;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 /**
  * Main window's controller.
- * Includes table of collection instances and action buttons.
+ * Includes table of instances instances and action buttons.
  */
 public class MainController {
     private CollectionInstances collections;
@@ -62,22 +62,10 @@ public class MainController {
     }
 
     /**
-     * Opens the new collection menu and overgives border pane and collections.
+     * Opens the new instances menu and overgives border pane and collections.
      */
     public void addCollection() {
-        AnchorPane anchorPane;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("newCollection.fxml"));
-        try {
-            anchorPane = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        AddController controller = loader.getController();
-        controller.setMainBorderPane(borderPane);
-        controller.setCollectionInstances(collections);
-        borderPane.setLeft(anchorPane);
-
+        openPane("newCollection.fxml");
     }
     public void removeCollection() {
         if (selectedRow != null) {
@@ -92,7 +80,22 @@ public class MainController {
     }
 
     public void startAction() {
-        // TODO: Show pane to choose an action
+        openPane("startAction.fxml");
+    }
+
+    private void openPane(String fxmlFile) {
+        AnchorPane anchorPane;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        try {
+            anchorPane = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        AnchorPaneController controller = loader.getController();
+        controller.setMainBorderPane(borderPane);
+        controller.setCollectionInstances(collections);
+        borderPane.setLeft(anchorPane);
     }
 }
 

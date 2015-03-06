@@ -1,9 +1,9 @@
 package ch.chrigu.demo.ui;
 
-import ch.chrigu.demo.collection.CollectionInstances;
-import ch.chrigu.demo.collection.options.CollectionOptions;
-import ch.chrigu.demo.collection.type.CollectionType;
-import ch.chrigu.demo.collection.type.CollectionTypes;
+import ch.chrigu.demo.instances.CollectionInstances;
+import ch.chrigu.demo.instances.options.CollectionOptions;
+import ch.chrigu.demo.types.CollectionType;
+import ch.chrigu.demo.types.CollectionTypes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -12,10 +12,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 /**
- * Controller for the add menu, where the collection type can be chosen.
+ * Controller for the add menu, where the instances types can be chosen.
  * Created by Christoph Huber on 21.01.2015.
  */
-public class AddController {
+public class AddController implements AnchorPaneController {
 
     @FXML
     private ChoiceBox<String> type;
@@ -53,19 +53,19 @@ public class AddController {
     }
 
     /**
-     * Tries to create a valid {@link ch.chrigu.demo.collection.type.CollectionType}.
-     * If valid, calls {@link ch.chrigu.demo.collection.CollectionInstances#add} and unsets this menu.
+     * Tries to create a valid {@link ch.chrigu.demo.types.CollectionType}.
+     * If valid, calls {@link ch.chrigu.demo.instances.CollectionInstances#add} and unsets this menu.
      */
     public void add() {
         if (type.getValue() == null) {
-            warn("Please choose a collection type");
+            warn("Please choose a instances types");
             return;
         }
         CollectionType<Integer> collectionType = CollectionTypes.fromString(type.getValue());
         CollectionOptions collectionOptions = new CollectionOptions();
         if (capacity.textProperty().isEmpty().getValue()) {
             if (!collectionType.allowsNoParams()) {
-                warn("This collection type requires an initial capacity parameter");
+                warn("This instances types requires an initial capacity parameter");
                 return;
             }
         } else {
@@ -76,7 +76,7 @@ public class AddController {
                     return;
                 }
                 if (!collectionType.allowsCapacityParam()) {
-                    warn("Initial capacity parameter not allowed for this collection type");
+                    warn("Initial capacity parameter not allowed for this instances types");
                     return;
                 }
                 collectionOptions = collectionOptions.capacity(capacityNumber);

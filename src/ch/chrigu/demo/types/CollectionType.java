@@ -1,11 +1,11 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
 
 import java.util.Collection;
 
 /**
- * A collection type describes any supported collection.
- * Its main purpose is creating an instance of this collection type.
+ * A instances types describes any supported instances.
+ * Its main purpose is creating an instance of this instances types.
  *
  * Created by Christoph Huber on 05.03.2015.
  */

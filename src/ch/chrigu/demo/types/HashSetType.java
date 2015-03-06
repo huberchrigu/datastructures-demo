@@ -1,4 +1,4 @@
-package ch.chrigu.demo.collection.type;
+package ch.chrigu.demo.types;
 
 import java.util.Collection;
 import java.util.HashSet;

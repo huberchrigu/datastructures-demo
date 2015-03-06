@@ -1,9 +1,13 @@
 package ch.chrigu.demo;
 
-import ch.chrigu.demo.collection.*;
-import ch.chrigu.demo.collection.list.AddFirstOperation;
-import ch.chrigu.demo.collection.list.GetAtIndexOperation;
-import ch.chrigu.demo.collection.list.RemoveAtIndexOperation;
+import ch.chrigu.demo.instances.*;
+import ch.chrigu.demo.operations.Operation;
+import ch.chrigu.demo.operations.collection.AddAllOperation;
+import ch.chrigu.demo.operations.collection.AddLastOperation;
+import ch.chrigu.demo.operations.collection.RemoveValueOperation;
+import ch.chrigu.demo.operations.collection.list.AddFirstOperation;
+import ch.chrigu.demo.operations.collection.list.GetAtIndexOperation;
+import ch.chrigu.demo.operations.collection.list.RemoveAtIndexOperation;
 import ch.chrigu.demo.ui.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -41,7 +45,7 @@ public class Main extends Application {
 
         // test("Remove " + n + " times zeros", collections, n, new RemoveValueOperation(), CollectionTypes.DataSetGenerator.ALL_ZEROS);
 
-        test("Add a collection of size " + n, collections, n, new AddAllOperation(), CollectionInstances.DataSetGenerator.RANDOM_VALUE);
+        test("Add a instances of size " + n, collections, n, new AddAllOperation(), CollectionInstances.DataSetGenerator.RANDOM_VALUE);
 
         // test("Add " + n + " elements to middle of list", collections, n, new AddMedianOperation(), CollectionTypes.DataSetGenerator.RANDOM_VALUE);
 
