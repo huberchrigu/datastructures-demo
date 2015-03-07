@@ -5,10 +5,7 @@ import ch.chrigu.demo.instances.CollectionInstances;
 import ch.chrigu.demo.ui.anchorpane.AnchorPaneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -54,6 +51,11 @@ public class MainController {
     @FXML
     private BorderPane borderPane;
 
+    @FXML
+    private ProgressBar progressBar;
+    @FXML
+    private Label progressText;
+
     public MainController() {
         collections = new CollectionInstances();
     }
@@ -68,6 +70,8 @@ public class MainController {
         collectionSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
         collectionElements.setCellValueFactory(cellData -> cellData.getValue().elementsProperty());
         lastMeasurement.setCellValueFactory(cellData -> cellData.getValue().lastMeasurementInMsProperty());
+
+        hideProgress();
     }
 
     /**
@@ -79,12 +83,19 @@ public class MainController {
     public void removeCollection() {
         collectionsTable.getItems().removeAll(collectionsTable.getSelectionModel().getSelectedItems());
     }
-    public void clear() {
-        collectionsTable.getItems().clear();
+    public void clearAll() {
+        for (CollectionInstance<Integer> collectionInstance : collectionsTable.getItems()) {
+            collectionInstance.clear();
+        }
     }
 
     public void startOperation() {
         openPane("startOperation.fxml");
+    }
+
+    private void hideProgress() {
+        progressBar.setVisible(false);
+        progressText.setVisible(false);
     }
 
     private void openPane(String fxmlFile) {
@@ -99,9 +110,9 @@ public class MainController {
         AnchorPaneController controller = loader.getController();
         controller.setMainBorderPane(borderPane);
         controller.setCollectionInstances(collections);
-        controller.setMainButtons(new MainButtons() {
+        controller.setMainElements(new MainElements() {
             @Override
-            public void enableAll() {
+            public void enableAllButtons() {
                 removeCollectionButton.setDisable(false);
                 startOperationButton.setDisable(false);
                 clearButton.setDisable(false);
@@ -109,11 +120,24 @@ public class MainController {
             }
 
             @Override
-            public void disableAll() {
+            public void disableAllButtons() {
                 removeCollectionButton.setDisable(true);
                 startOperationButton.setDisable(true);
                 clearButton.setDisable(true);
                 addCollectionButton.setDisable(true);
+            }
+
+            @Override
+            public void startProgress(String label) {
+                progressText.setText(label);
+                progressBar.setProgress(0);
+                progressText.setVisible(true);
+                progressBar.setVisible(true);
+            }
+
+            @Override
+            public ProgressBar getProgressBar() {
+                return progressBar;
             }
         });
         borderPane.setLeft(anchorPane);

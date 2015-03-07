@@ -126,6 +126,12 @@ public class CollectionInstance<T> {
     }
 
     public void resetLastMeasurementInMs() {
-        lastMeasurementInMs.setValue(null);
+        lastMeasurementInMs.setValue(-1);
+    }
+
+    public void clear() {
+        instance.clear();
+        updateElements();
+        updateSize();
     }
 }

@@ -1,7 +1,7 @@
 package ch.chrigu.demo.ui.anchorpane;
 
 import ch.chrigu.demo.instances.CollectionInstances;
-import ch.chrigu.demo.ui.MainButtons;
+import ch.chrigu.demo.ui.MainElements;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -16,5 +16,5 @@ public interface AnchorPaneController {
 
     void setCollectionInstances(CollectionInstances collections);
 
-    void setMainButtons(MainButtons mainButtons);
+    void setMainElements(MainElements mainElements);
 }

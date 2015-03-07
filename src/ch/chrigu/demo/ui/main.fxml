@@ -3,13 +3,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.chrigu.demo.ui.MainController">
    <top>
-       <HBox prefHeight="100.0" BorderPane.alignment="CENTER">
+       <HBox>
            <Button fx:id="addCollectionButton" onAction="#addCollection" text="Add Collection"/>
            <Button fx:id="removeCollectionButton" onAction="#removeCollection" text="Remove Collection"/>
-           <Button fx:id="clearButton" onAction="#clear" text="Clear"/>
+           <Button fx:id="clearButton" onAction="#clearAll" text="Clear All"/>
            <Button fx:id="startOperationButton" onAction="#startOperation" text="Start Operation"/>
+           <Separator/>
+           <Label fx:id="progressText" text="Operation...">
+               <HBox.margin>
+                   <Insets right="5.0"/>
+               </HBox.margin>
+           </Label>
+           <ProgressBar fx:id="progressBar"/>
+           <BorderPane.margin>
+               <Insets bottom="10.0"/>
+           </BorderPane.margin>
        </HBox>
    </top>
    <center>

@@ -6,7 +6,7 @@ import ch.chrigu.demo.operations.Operation;
 import ch.chrigu.demo.operations.collection.AddAllOperation;
 import ch.chrigu.demo.operations.collection.CollectionOperation;
 import ch.chrigu.demo.operations.collection.list.ListOperation;
-import ch.chrigu.demo.ui.MainButtons;
+import ch.chrigu.demo.ui.MainElements;
 import javafx.concurrent.Task;
 
 import java.util.Arrays;
@@ -17,7 +17,7 @@ import java.util.List;
  * Task performing a {@link CollectionOperation} in a non-UI thread,
  * as this may take some time dependent on the data set.
  * <p>
- *     Calls <code>{@link MainButtons#enableAll()}</code> after operation has finished on each instance.
+ *     Calls <code>{@link MainElements#enableAllButtons()}</code> after operation has finished on each instance.
  * </p>
  *
  * Created by Christoph Huber on 06.03.2015.
@@ -27,17 +27,19 @@ public class StartOperationTask extends Task<Integer> {
     private final int dataSetSize;
     private final Operation operation;
     private final DataSetGenerator dataSetGenerator;
-    private final MainButtons mainButtons;
+    private final MainElements mainElements;
     private final CollectionInstances collectionInstances;
 
     public enum DataSetGenerator {RANDOM_VALUE, RANDOM_INDEX, ALL_ZEROS}
 
-    public StartOperationTask(CollectionInstances collectionInstances, int dataSetSize, Operation operation, DataSetGenerator dataSetGenerator, MainButtons mainButtons) {
+    public StartOperationTask(CollectionInstances collectionInstances, int dataSetSize, Operation operation, DataSetGenerator dataSetGenerator, MainElements mainElements) {
         this.collectionInstances = collectionInstances;
         this.dataSetSize = dataSetSize;
         this.operation = operation;
         this.dataSetGenerator = dataSetGenerator;
-        this.mainButtons = mainButtons;
+        this.mainElements = mainElements;
+        mainElements.startProgress(operation.getClass().getSimpleName() + "...");
+        mainElements.getProgressBar().progressProperty().bind(progressProperty());
     }
 
 
@@ -45,10 +47,14 @@ public class StartOperationTask extends Task<Integer> {
     public Integer call() {
         Integer[] dataSet = generateDataSet();
         List<Integer> dataSetList = Arrays.asList(dataSet);
+        int done = 0;
+        for (CollectionInstance<Integer> collectionInstance : this.collectionInstances.getInstances()) {
+            collectionInstance.resetLastMeasurementInMs();
+        }
         for (CollectionInstance<Integer> collectionInstance : this.collectionInstances.getInstances()) {
             Collection<Integer> c = collectionInstance.getInstance();
             if (operation instanceof ListOperation && !(c instanceof List)) {
-                collectionInstance.resetLastMeasurementInMs();
+                done = instanceDone(done);
                 continue;
             }
 
@@ -65,13 +71,21 @@ public class StartOperationTask extends Task<Integer> {
             }
             measurement.stop();
             collectionInstance.updateLastMesasurementInMs(measurement.getTimeInMs());
+            done = instanceDone(done);
         }
         return collectionInstances.getInstances().size();
     }
 
+    private int instanceDone(int done) {
+        done++;
+        updateProgress(done, collectionInstances.getInstances().size());
+        return done;
+    }
+
     @Override
     public void succeeded() {
-        mainButtons.enableAll();
+        mainElements.getProgressBar().progressProperty().unbind();
+        mainElements.enableAllButtons();
     }
 
     private void executeListOperation(ListOperation operation, List list, Integer[] dataSet) {

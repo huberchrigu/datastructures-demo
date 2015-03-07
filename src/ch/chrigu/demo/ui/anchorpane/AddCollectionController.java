@@ -4,7 +4,7 @@ import ch.chrigu.demo.instances.CollectionInstances;
 import ch.chrigu.demo.instances.options.CollectionOptions;
 import ch.chrigu.demo.types.CollectionType;
 import ch.chrigu.demo.types.CollectionTypes;
-import ch.chrigu.demo.ui.MainButtons;
+import ch.chrigu.demo.ui.MainElements;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -22,9 +22,6 @@ public class AddCollectionController implements AnchorPaneController {
     private CheckBox synchronizedCollection;
 
     @FXML
-    private CheckBox blocking;
-
-    @FXML
     private TextField capacity;
 
     private BorderPane mainBorderPane;
@@ -33,6 +30,7 @@ public class AddCollectionController implements AnchorPaneController {
     @FXML
     public void initialize() {
         type.setItems(FXCollections.observableArrayList(CollectionTypes.getAvailableTypes()));
+        type.setValue("ArrayList");
     }
 
     public void cancel() {
@@ -54,7 +52,7 @@ public class AddCollectionController implements AnchorPaneController {
     }
 
     @Override
-    public void setMainButtons(MainButtons mainButtons) {
+    public void setMainElements(MainElements mainElements) {
         // ignore, we don't need the button here
     }
 

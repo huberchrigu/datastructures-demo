@@ -3,6 +3,8 @@ package ch.chrigu.demo.operations.collection;
 import java.util.Collection;
 
 /**
+ * Executes {@link Collection#remove} for each value.
+ *
  * Created by Christoph Huber on 02.01.2015.
  */
 public class RemoveValueOperation implements CollectionOperation {

@@ -4,7 +4,7 @@ import ch.chrigu.demo.tasks.StartOperationTask;
 import ch.chrigu.demo.operations.Operation;
 import ch.chrigu.demo.operations.Operations;
 import ch.chrigu.demo.instances.CollectionInstances;
-import ch.chrigu.demo.ui.MainButtons;
+import ch.chrigu.demo.ui.MainElements;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,7 +24,7 @@ public class StartOperationController implements AnchorPaneController {
 
     private BorderPane mainBorderPane;
     private CollectionInstances collectionInstances;
-    private MainButtons mainButtons;
+    private MainElements mainElements;
 
     @FXML
     TextField dataSetSize;
@@ -37,7 +37,12 @@ public class StartOperationController implements AnchorPaneController {
     @FXML
     public void initialize() {
         operationChoice.setItems(FXCollections.observableArrayList(Operations.getOperationNames()));
+        operationChoice.setValue(Operations.getOperationNames().get(0));
+
+        dataSetSize.setText("100000");
+
         dataSetGeneratorChoice.setItems(FXCollections.observableArrayList(RANDOM_VALUE, ALL_ZEROS, RANDOM_INDEX));
+        dataSetGeneratorChoice.setValue(RANDOM_VALUE);
     }
 
     @Override
@@ -51,8 +56,8 @@ public class StartOperationController implements AnchorPaneController {
     }
 
     @Override
-    public void setMainButtons(MainButtons mainButtons) {
-        this.mainButtons = mainButtons;
+    public void setMainElements(MainElements mainElements) {
+        this.mainElements = mainElements;
     }
 
     /**
@@ -70,8 +75,9 @@ public class StartOperationController implements AnchorPaneController {
         if (!validateParams(size)) {
             return;
         }
-        mainButtons.disableAll();
-        new StartOperationTask(collectionInstances, size, operation, dataSetGenerator, mainButtons).run();
+        mainElements.disableAllButtons();
+        StartOperationTask startOperationTask = new StartOperationTask(collectionInstances, size, operation, dataSetGenerator, mainElements);
+        new Thread(startOperationTask).start();
         cancel();
     }
 
