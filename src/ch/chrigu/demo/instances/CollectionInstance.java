@@ -7,8 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -48,8 +47,24 @@ public class CollectionInstance<T> {
 
         // do this after initProperties, because instance's class would be SynchronizedCollection otherwise
         if (collectionOptions.isSynchronizedCollection()) {
-            this.instance = Collections.synchronizedCollection(instance);
+            this.instance = synchronizedCollection(instance);
         }
+    }
+
+    /**
+     * The best matching {@link Collections}'s synchronized... function is applied.
+     */
+    private Collection<T> synchronizedCollection(Collection<T> instance) {
+        if (instance instanceof List) {
+            return Collections.synchronizedList((List<T>) instance);
+        }
+        if (instance instanceof Set) {
+            if (instance instanceof NavigableSet) {
+                return Collections.synchronizedNavigableSet((NavigableSet<T>) instance);
+            }
+            return Collections.synchronizedSet((Set<T>) instance);
+        }
+        return Collections.synchronizedCollection(instance);
     }
 
     private void initProperties() {

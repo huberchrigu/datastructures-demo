@@ -13,7 +13,7 @@ import javafx.scene.layout.BorderPane;
  * Controller for the add menu, where the instances types can be chosen.
  * Created by Christoph Huber on 21.01.2015.
  */
-public class AddController implements AnchorPaneController {
+public class AddCollectionController implements AnchorPaneController {
 
     @FXML
     private ChoiceBox<String> type;
@@ -93,9 +93,6 @@ public class AddController implements AnchorPaneController {
         }
         if (synchronizedCollection.isSelected()) {
             collectionOptions = collectionOptions.synchronizedCollection();
-        }
-        if (blocking.isSelected()) {
-            // TODO: Eval and add option.
         }
         collectionInstances.add(collectionType, collectionOptions);
         mainBorderPane.setLeft(null);

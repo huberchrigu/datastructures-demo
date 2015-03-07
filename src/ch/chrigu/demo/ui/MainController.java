@@ -74,7 +74,7 @@ public class MainController {
      * Opens the new instances menu and overgives border pane and collections.
      */
     public void addCollection() {
-        openPane("newCollection.fxml");
+        openPane("addCollection.fxml");
     }
     public void removeCollection() {
         collectionsTable.getItems().removeAll(collectionsTable.getSelectionModel().getSelectedItems());
