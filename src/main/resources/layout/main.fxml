@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.chrigu.datastructures.demo.ui.MainController">
+   <top>
+       <HBox>
+           <Button fx:id="addCollectionButton" onAction="#addCollection" text="Add Collection"/>
+           <Button fx:id="removeCollectionButton" onAction="#removeCollection" text="Remove Collection"/>
+           <Button fx:id="clearButton" onAction="#clearAll" text="Clear All"/>
+           <Button fx:id="startOperationButton" onAction="#startOperation" text="Start Operation"/>
+           <Separator/>
+           <Label fx:id="progressText" text="Operation...">
+               <HBox.margin>
+                   <Insets right="5.0"/>
+               </HBox.margin>
+           </Label>
+           <ProgressBar fx:id="progressBar"/>
+           <BorderPane.margin>
+               <Insets bottom="10.0"/>
+           </BorderPane.margin>
+       </HBox>
+   </top>
+   <center>
+       <AnchorPane BorderPane.alignment="CENTER">
+           <TableView fx:id="collectionsTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columns>
+                   <TableColumn fx:id="collectionName" text="Collection"/>
+                   <TableColumn fx:id="collectionParameters" text="Parameters"/>
+                   <TableColumn fx:id="collectionSize" text="Size"/>
+                   <TableColumn fx:id="collectionElements" text="Elements"/>
+                   <TableColumn fx:id="lastMeasurement" text="Last Measurement in ms"/>
+               </columns>
+               <columnResizePolicy>
+                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+               </columnResizePolicy>
+           </TableView>
+       </AnchorPane>
+   </center>
+</BorderPane>
