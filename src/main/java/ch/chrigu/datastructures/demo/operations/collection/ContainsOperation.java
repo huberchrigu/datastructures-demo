@@ -22,18 +22,18 @@
  * SOFTWARE.
  */
 
-package ch.chrigu.datastructures.demo.operations.collection.list;
+package ch.chrigu.datastructures.demo.operations.collection;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
- * Calls {@link List#get(int)} and ignores result.
+ * Calls {@link Collection#contains} and ignores result.
  *
- * Created by Christoph Huber on 02.01.2015.
+ * Created by Christoph Huber on 08.03.2015.
  */
-public class GetAtIndexOperation implements ListOperation {
+public class ContainsOperation implements CollectionOperation {
     @Override
-    public void execute(Integer i, List l) {
-        l.get(i);
+    public void execute(Integer i, Collection collection) {
+        collection.contains(i);
     }
 }

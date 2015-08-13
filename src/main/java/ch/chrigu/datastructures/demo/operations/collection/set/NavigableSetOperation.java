@@ -22,18 +22,17 @@
  * SOFTWARE.
  */
 
-package ch.chrigu.datastructures.demo.operations.collection.list;
+package ch.chrigu.datastructures.demo.operations.collection.set;
 
-import java.util.List;
+import ch.chrigu.datastructures.demo.operations.Operation;
+
+import java.util.NavigableSet;
 
 /**
- * Calls {@link List#get(int)} and ignores result.
+ * An operations that can be performed on navigable sets only.
  *
  * Created by Christoph Huber on 02.01.2015.
  */
-public class GetAtIndexOperation implements ListOperation {
-    @Override
-    public void execute(Integer i, List l) {
-        l.get(i);
-    }
+public interface NavigableSetOperation extends Operation {
+    public void execute(Integer i, NavigableSet navigableSet);
 }
